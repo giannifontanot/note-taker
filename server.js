@@ -14,7 +14,7 @@ const PORT = 3000;
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-
+// ----------------------------------------------------- //
 // Routes to static HTML
 app.get('/',
     (req, res) => {
@@ -28,28 +28,15 @@ app.get('/notes',
     });
 
 // ----------------------------------------------------- //
-
 // Route to process the data sent
-app.post('/saveReservation', (req, res) => {
-
-    const   newReservation   =  req.body ;
-    console.log("newReservation: " + JSON.stringify(newReservation));
-
-    tables.push( newReservation );
-    res.sendFile(path.join(__dirname, 'index.html'));
-
-});
-// Route to process the data sent
-app.get('/fetchTableList', (req, res) => {
-
-    console.log("tables: " + tables);
-    fs.writeFile("log.txt", JSON.stringify(tables), err => {
-        console.log(err);
-    });
-    return res.json(tables);
-
+// !GET
+app.get('/api/notes', (req, res) => {
+    res.header("Content-Type", "application/json");
+    res.sendFile(path.join(__dirname, './db/db.json'));
 });
 
+
+// ----------------------------------------------------- //
 // Server is listening
 app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
 

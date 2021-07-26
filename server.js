@@ -35,7 +35,19 @@ app.get('/api/notes', (req, res) => {
     res.sendFile(path.join(__dirname, './db/db.json'));
 });
 
+// !POST
+app.post('/api/notes', (req, res) => {
+    // Read de db.json file and parse it
+    const jsonData = fs.readFileSync('./db/db.json', {encoding: 'utf-8'})
+    const objectData = JSON.parse(jsonData);
+    // Ob
+    objectData.push(req.body);
+    console.log("req.body: " + req.body);
+    fs.writeFile('./db/db.json', JSON.stringify(objectData), err => {
+        console.log("err: " + err);
+    });
 
+});
 // ----------------------------------------------------- //
 // Server is listening
 app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));

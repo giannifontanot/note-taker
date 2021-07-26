@@ -29,16 +29,6 @@ app.get('/notes',
 
 // ----------------------------------------------------- //
 
-// Routes to regular HTML
-app.get('/',
-    (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
-
-app.get('/newReservation',
-    (req, res) => res.sendFile(path.join(__dirname, 'newReservation.html')));
-
-app.get('/tables',
-    (req, res) => res.sendFile(path.join(__dirname, 'tables.html')));
-
 // Route to process the data sent
 app.post('/saveReservation', (req, res) => {
 

@@ -16,15 +16,14 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 // ----------------------------------------------------- //
 // Routes to static HTML
-app.get('/',
-    (req, res) => {
-        res.sendFile(path.join(__dirname, './public/index.html'))
-        console.log("landed  on root: ");
-    });
 app.get('/notes',
     (req, res) => {
         res.sendFile(path.join(__dirname, './public/notes.html'))
-        console.log("landed on /notes: ");
+    });
+
+app.get('/',
+    (req, res) => {
+        res.sendFile(path.join(__dirname, './public/index.html'))
     });
 
 // ----------------------------------------------------- //
@@ -44,16 +43,18 @@ app.post('/api/notes', (req, res) => {
     const lastObject = objectData.slice(objectData.length - 1, objectData.length);
 
     // lastObject is still an array of objects. To get data we need to reference what object in the array.
-    const {title, text, id} = req.body;
     let lastId = lastObject[0].id;
+    let newId = ++lastId;
 
-    const newNote = {title: title, text: text, id: lastId++};
+    const newNote = {"title": req.body.title, "text": req.body.text, "id": newId};
+
 
     objectData.push(newNote);
 
-    console.log("req.body: " + req.body);
     fs.writeFile('./db/db.json', JSON.stringify(objectData), err => {
-        console.log("err: " + err);
+        if (err) {
+            console.log("err: app.post:" + err);
+        }
     });
     //Close the connection
     res.end();
@@ -72,7 +73,9 @@ app.delete('/api/notes/:id', (req, res) => {
         }
     });
     fs.writeFile('./db/db.json', JSON.stringify(objectData), err => {
-        console.log(">>> err: " + err);
+        if (err) {
+            console.log("err: app.delete:" + err);
+        }
     });
 
     res.end();

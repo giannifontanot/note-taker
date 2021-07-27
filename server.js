@@ -57,7 +57,16 @@ app.delete('/api/notes/:id', (req, res) => {
     let jsonData = fs.readFileSync('./db/db.json', {encoding: "utf8"});
     let objectData = JSON.parse(jsonData);
 
+    objectData.forEach((element, index, array) => {
+        if (element.id.toString() === id) {
+            array.splice(index, 1);
+        }
+    });
+    fs.writeFile('./db/db.json', JSON.stringify(objectData), err => {
+        console.log(">>> err: " + err);
+    });
 
+    res.end();
 });
 // ----------------------------------------------------- //
 // Server is listening

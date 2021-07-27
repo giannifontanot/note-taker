@@ -46,9 +46,19 @@ app.post('/api/notes', (req, res) => {
     fs.writeFile('./db/db.json', JSON.stringify(objectData), err => {
         console.log("err: " + err);
     });
+    //Close the connection
     res.end();
 });
+// !DELETE
+app.delete('/api/notes/:id', (req, res) => {
+    // Receive the id to delete
+    const id = req.params.id;
+    // Read JSON file
+    let jsonData = fs.readFileSync('./db/db.json', {encoding: "utf8"});
+    let objectData = JSON.parse(jsonData);
 
+
+});
 // ----------------------------------------------------- //
 // Server is listening
 app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));

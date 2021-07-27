@@ -46,7 +46,7 @@ app.post('/api/notes', (req, res) => {
     fs.writeFile('./db/db.json', JSON.stringify(objectData), err => {
         console.log("err: " + err);
     });
-res.end();
+    res.end();
 });
 
 // ----------------------------------------------------- //

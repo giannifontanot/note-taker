@@ -16,15 +16,37 @@ app.use(express.json());
 // ----------------------------------------------------- //
 // Route to process the data sent
 // !GET
-app.get('/api/notes', (req, res) => {
-    res.header("Content-Type", "application/json");
-    res.sendFile(path.join(__dirname, './db/db.json'));
-});
+    app.get('/api/notes', (req, res) => {
+        res.header("Content-Type", "application/json");
+        res.sendFile(path.join(__dirname, './db/db.json'),( err )=>{
+             if(err.status === 404){
+                 fs.writeFile('./db/db.json', "", err => {
+                     if (err) {
+                         console.log("err: app.post:" + err);
+                     }
+                 });
+             }
+
+        });
+
+    });
+
+
 
 // !POST
 app.post('/api/notes', (req, res) => {
+
+    // Check that the file exists locally
+    if (!fs.existsSync('./db/db.json')) {
+        fs.writeFile('./db/db.json', "", err => {
+            if (err) {
+                console.log("err: app.post:" + err);
+            }
+        });
+    }
+
     // Read de db.json file and parse it
-    const jsonData = fs.readFileSync('./db/db.json', {encoding: 'utf-8'})
+    const jsonData = fs.readFileSync('./db/db.json', {encoding: 'utf-8'});
     const objectData = JSON.parse(jsonData);
     // Getting a sub array from the JSON array
     const lastObject = objectData.slice(objectData.length - 1, objectData.length);

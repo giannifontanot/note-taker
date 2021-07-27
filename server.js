@@ -40,8 +40,17 @@ app.post('/api/notes', (req, res) => {
     // Read de db.json file and parse it
     const jsonData = fs.readFileSync('./db/db.json', {encoding: 'utf-8'})
     const objectData = JSON.parse(jsonData);
-    // Ob
-    objectData.push(req.body);
+    // Getting a sub array from the JSON array
+    const lastObject = objectData.slice(objectData.length - 1, objectData.length);
+
+    // lastObject is still an array of objects. To get data we need to reference what object in the array.
+    const {title, text, id} = req.body;
+    let lastId = lastObject[0].id;
+
+    const newNote = {title: title, text: text, id: lastId++};
+
+    objectData.push(newNote);
+
     console.log("req.body: " + req.body);
     fs.writeFile('./db/db.json', JSON.stringify(objectData), err => {
         console.log("err: " + err);

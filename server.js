@@ -3,8 +3,6 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 
-// Data is stored in an array
-let tables = [];
 
 // Sets up the Express App
 const app = express();
@@ -14,17 +12,6 @@ const PORT = 3000;
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-// ----------------------------------------------------- //
-// Routes to static HTML
-app.get('/notes',
-    (req, res) => {
-        res.sendFile(path.join(__dirname, './public/notes.html'))
-    });
-
-app.get('/',
-    (req, res) => {
-        res.sendFile(path.join(__dirname, './public/index.html'))
-    });
 
 // ----------------------------------------------------- //
 // Route to process the data sent
@@ -80,7 +67,26 @@ app.delete('/api/notes/:id', (req, res) => {
 
     res.end();
 });
+
 // ----------------------------------------------------- //
+// Routes to static HTML
+app.get('/notes',
+    (req, res) => {
+        res.sendFile(path.join(__dirname, './public/notes.html'))
+    });
+
+app.get('/',
+    (req, res) => {
+        res.sendFile(path.join(__dirname, './public/index.html'))
+    });
+
+app.get('*',
+    (req, res) => {
+        res.header("Content-Type", "text/html; charset=utf-8");
+        res.sendFile(path.join(__dirname, './public/index.html'));
+    });
+
+
 // Server is listening
 app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
 

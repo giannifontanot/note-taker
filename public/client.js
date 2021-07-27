@@ -8,7 +8,6 @@ if (window.location.pathname === '/notes') {
     gNoteTitleEl = document.querySelector('.note-title');
     gNoteTextEl = document.querySelector('.note-textarea');
     gSaveNoteBtn = document.querySelector('.save-note');
-    ``
     gNewNoteBtn = document.querySelector('.new-note');
     gNoteListEl = document.querySelectorAll('.list-container .list-group');
 }

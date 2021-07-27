@@ -19,20 +19,24 @@ app.use(express.json());
     app.get('/api/notes', (req, res) => {
         res.header("Content-Type", "application/json");
         res.sendFile(path.join(__dirname, './db/db.json'),( err )=>{
-             if(err.status === 404){
-                 fs.writeFile('./db/db.json', "", err => {
-                     if (err) {
-                         console.log("err: app.post:" + err);
-                     }
-                 });
-             }
+            if(err) {
+                if (err.status === 404) {
+                    fs.writeFile('./db/db.json', "[]", err => {
+                        res.sendFile(path.join(__dirname, './db/db.json'));
+                        if (err) {
+                            console.log("err: app.get:" + err);
+                        }
+                    });
+                } else {
+                    console.log("err: app.get:" + err);
+                }
+            }
 
         });
 
     });
 
-
-
+// ----------------------------------------------------- //
 // !POST
 app.post('/api/notes', (req, res) => {
 
@@ -48,18 +52,23 @@ app.post('/api/notes', (req, res) => {
     // Read de db.json file and parse it
     const jsonData = fs.readFileSync('./db/db.json', {encoding: 'utf-8'});
     const objectData = JSON.parse(jsonData);
-    // Getting a sub array from the JSON array
-    const lastObject = objectData.slice(objectData.length - 1, objectData.length);
+    let newId = 1;
 
-    // lastObject is still an array of objects. To get data we need to reference what object in the array.
-    let lastId = lastObject[0].id;
-    let newId = ++lastId;
+    // In case db.json already have data
+    if(objectData.length > 0) {
+        // Getting a sub array from the JSON array
+        const lastObject = objectData.slice(objectData.length - 1, objectData.length);
 
+        // lastObject is still an array of objects. To get data we need to reference what object in the array.
+        let lastId = lastObject[0].id;
+        newId = ++lastId;
+    }
+
+    //Create new note with the request data
     const newNote = {"title": req.body.title, "text": req.body.text, "id": newId};
-
-
     objectData.push(newNote);
 
+    // Write the file
     fs.writeFile('./db/db.json', JSON.stringify(objectData), err => {
         if (err) {
             console.log("err: app.post:" + err);
@@ -68,6 +77,7 @@ app.post('/api/notes', (req, res) => {
     //Close the connection
     res.end();
 });
+// ----------------------------------------------------- //
 // !DELETE
 app.delete('/api/notes/:id', (req, res) => {
     // Receive the id to delete
@@ -81,12 +91,14 @@ app.delete('/api/notes/:id', (req, res) => {
             array.splice(index, 1);
         }
     });
+    //Rewrite the file with the new data
     fs.writeFile('./db/db.json', JSON.stringify(objectData), err => {
         if (err) {
             console.log("err: app.delete:" + err);
         }
     });
 
+    //Close the request/response
     res.end();
 });
 
@@ -96,18 +108,17 @@ app.get('/notes',
     (req, res) => {
         res.sendFile(path.join(__dirname, './public/notes.html'))
     });
-
+// Routes to static HTML
 app.get('/',
     (req, res) => {
         res.sendFile(path.join(__dirname, './public/index.html'))
     });
-
+// WILDCARD route to static HTML
 app.get('*',
     (req, res) => {
         res.header("Content-Type", "text/html; charset=utf-8");
         res.sendFile(path.join(__dirname, './public/index.html'));
     });
-
 
 // Server is listening
 app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));

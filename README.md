@@ -26,6 +26,8 @@ This piece of software, although is small, it can be very handy to save quick no
 ## Credits
 I looked at various pages to finish this project:
 
+- [How to deploy a NodeJS app to Heroku](https://www.freecodecamp.org/news/how-to-deploy-a-nodejs-app-to-heroku-from-github-without-installing-heroku-on-your-machine-433bec770efe/)
+
 - [How to Send and Receive JSON Data to and from the Server](https://www.webucator.com/article/how-to-send-and-receive-json-data-to-and-from-the/)
 - [https://nodejs.org/api/events.html](https://nodejs.org/api/events.html)
 - [Anatomy of an HTTP Transaction](https://nodejs.org/en/docs/guides/anatomy-of-an-http-transaction/)

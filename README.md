@@ -47,8 +47,8 @@ In case you need them, here are some guidelines: [Contributor Covenant](https://
 # 🔗 Links
 ### GitHub Repository
 [https://github.com/giannifontanot/note-taker/](https://github.com/giannifontanot/note-taker/)
-### Live Link
-[https://giannifontanot.github.io/LIVE-LINK](https://giannifontanot.github.io/LIVE-LINK)
+### Live Link in Heroku
+[https://gianni-note-taker.herokuapp.com/](https://gianni-note-taker.herokuapp.com/)
 ### Support
 If you need help with this project, please write to: [giannifontanot@gmail.com](https://mailto:giannifontanot@gmail.com)
 ### Authors

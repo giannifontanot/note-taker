@@ -2,7 +2,9 @@
 ![Status Stable](https://img.shields.io/badge/Status-Stable-blue)
 [![MIT License](https://img.shields.io/badge/License-MIT%20License-brightgreen)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
 # Note Taker
-This project allows the user to take notes using the browser and save them in a JSON file. The notes can be viewed in a later time because the JSON file is located on a Heroku space. The front end was already in place, and we as developers created the backend using NodeJS and ExpressJS.
+This project allows the user to take notes using the browser and save them in a JSON file. The notes can be viewed at 
+a later time because the JSON file is located on a Heroku space. For this project, the front end was provided, and 
+our job as developers was to create the backend using NodeJS and ExpressJS.
 ## Table of Contents
 - [Note Taker](#Note Taker)
 	* [Installation](#installation)

@@ -18,11 +18,11 @@ app.use(express.json());
 // !GET
     app.get('/api/notes', (req, res) => {
         res.header("Content-Type", "application/json");
-        res.sendFile(path.join(__dirname, './db/db.json'),( err )=>{
+        res.sendFile(path.join(__dirname, '/db/db.json'),( err )=>{
             if(err) {
                 if (err.status === 404) {
-                    fs.writeFile('./db/db.json', "[]", err => {
-                        res.sendFile(path.join(__dirname, './db/db.json'));
+                    fs.writeFile(path.join(__dirname, '/db/db.json'), "[]", err => {
+                        res.sendFile(path.join(__dirname, '/db/db.json'));
                         if (err) {
                             console.log("err: app.get:" + err);
                         }
@@ -41,8 +41,8 @@ app.use(express.json());
 app.post('/api/notes', (req, res) => {
 
     // Check that the file exists locally
-    if (!fs.existsSync('./db/db.json')) {
-        fs.writeFile('./db/db.json', "", err => {
+    if (!fs.existsSync(path.join(__dirname, '/db/db.json'))) {
+        fs.writeFile(path.join(__dirname, '/db/db.json'), "", err => {
             if (err) {
                 console.log("err: app.post:" + err);
             }
@@ -50,7 +50,7 @@ app.post('/api/notes', (req, res) => {
     }
 
     // Read de db.json file and parse it
-    const jsonData = fs.readFileSync('./db/db.json', {encoding: 'utf-8'});
+    const jsonData = fs.readFileSync(path.join(__dirname, '/db/db.json'), {encoding: 'utf-8'});
     const objectData = JSON.parse(jsonData);
     let newId = 1;
 
@@ -69,7 +69,7 @@ app.post('/api/notes', (req, res) => {
     objectData.push(newNote);
 
     // Write the file
-    fs.writeFile('./db/db.json', JSON.stringify(objectData), err => {
+    fs.writeFile(path.join(__dirname, '/db/db.json'), JSON.stringify(objectData), err => {
         if (err) {
             console.log("err: app.post:" + err);
         }
@@ -83,7 +83,7 @@ app.delete('/api/notes/:id', (req, res) => {
     // Receive the id to delete
     const id = req.params.id;
     // Read JSON file
-    let jsonData = fs.readFileSync('./db/db.json', {encoding: "utf8"});
+    let jsonData = fs.readFileSync(path.join(__dirname, '/db/db.json'), {encoding: "utf8"});
     let objectData = JSON.parse(jsonData);
 
     objectData.forEach((element, index, array) => {
@@ -92,7 +92,7 @@ app.delete('/api/notes/:id', (req, res) => {
         }
     });
     //Rewrite the file with the new data
-    fs.writeFile('./db/db.json', JSON.stringify(objectData), err => {
+    fs.writeFile(path.join(__dirname, '/db/db.json'), JSON.stringify(objectData), err => {
         if (err) {
             console.log("err: app.delete:" + err);
         }
